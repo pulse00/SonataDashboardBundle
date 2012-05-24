@@ -1,0 +1,19 @@
+{
+    "name": "sonata-project/dashboard-bundle",
+    "description": "Provides various dashboard blocks for the sonata bundles",
+    "keywords": [ "dashboard", "sonata"],
+    "license": "MIT",
+    "require": {
+        "sonata-project/admin-bundle": "dev-master"
+    },
+    "authors": [
+        {
+            "name": "Robert Gruendler",
+            "email": "robert@dubture.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "Sonata\\DashboardBundle": "" }
+    },  
+    "target-dir": "Sonata/DashboardBundle"
+}
