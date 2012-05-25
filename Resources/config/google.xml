@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="sonata.dashboard.block.google.dashboard.class">Sonata\DashboardBundle\Block\GoogleDashboardBlockService</parameter>
+    </parameters>
+
+    <services>
+        <service id="sonata.dashboard.block.google.dashboard" class="%sonata.dashboard.block.google.dashboard.class%">
+            <tag name="sonata.block" />
+            <tag name="sonata.layout.render"/>
+            <argument>sonata.admin.block.google.dashboard</argument>
+            <argument type="service" id="templating" />
+            <argument type="service" id="sonata.admin.pool" />
+        </service>
+    </services>
+    
+</container>

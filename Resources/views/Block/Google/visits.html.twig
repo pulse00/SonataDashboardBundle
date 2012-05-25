@@ -1,0 +1,34 @@
+<div class="gadash-container">
+    <h3>Visits</h3>
+    <div id='dataOverTimeConfig'></div>
+    <img src="{{ asset('/bundles/sonatadashboard/images/preloader.gif') }}" class="gadash-preloader" style="display:none;"/>
+<div>
+
+<script type="text/javascript">
+
+function adminInit() {
+
+    // Create new Chart.
+    var dataOverTime = new gadash.Chart({
+	    'last-n-days': 30,
+        'chartOptions': {
+            width: 700
+        },
+        'divContainer': 'dataOverTimeConfig',
+        'type': 'LineChart',
+        'query': {
+          'dimensions': 'ga:date',
+          'sort': 'ga:date',
+          'metrics': 'ga:visitors, ga:visits, ga:pageviews',
+          'ids' : gadash.tableId      
+        },
+        'chartOptions': {
+            height: 300,
+            legend: {position: 'bottom'},
+            hAxis: {title:'Date'},
+            curveType: 'function'
+        }
+    }).render();
+}
+
+</script>
