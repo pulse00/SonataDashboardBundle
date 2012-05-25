@@ -1,19 +1,15 @@
-<div class="gadash-container">
+<div class="gadash-container visits well">
     <h3>{{ 'google_visits'|trans({}, 'SonataDashboardBundle') }}</h3>
-    <div id='dataOverTimeConfig'></div>
+    <div id="dataOverTimeConfig" class="stats-container"></div>
     <img src="{{ asset('/bundles/sonatadashboard/images/preloader.gif') }}" class="gadash-preloader" style="display:none;"/>
 <div>
 
 <script type="text/javascript">
 
 function visitInit() {
-
     // Create new Chart.
     var dataOverTime = new gadash.Chart({
-	    'last-n-days': 30,
-        'chartOptions': {
-            width: 700
-        },
+	    'last-n-days': {{ days }},
         'divContainer': 'dataOverTimeConfig',
         'type': 'LineChart',
         'query': {
@@ -23,7 +19,8 @@ function visitInit() {
           'ids' : gadash.tableId      
         },
         'chartOptions': {
-            height: 300,
+            height: {{ height }},
+            width: {{ width }},
             legend: {position: 'bottom'},
             hAxis: {title:'Date'},
             curveType: 'function'

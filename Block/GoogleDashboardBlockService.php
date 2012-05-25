@@ -24,12 +24,19 @@ class GoogleDashboardBlockService extends BaseBlockService
     protected $request;
     protected $authTemplate;
     
+    protected $width;
+    protected $height;
+    protected $days;
+    
     public function __construct($name, EngineInterface $templating, array $config)
     {
         parent::__construct($name, $templating);
         $this->initialized = false;
         $this->statistics = $config['stats'];
         $this->authTemplate = $config['authorize_template'];
+        $this->width = $config['chart_width'];
+        $this->height = $config['chart_height'];
+        $this->days = $config['chart_days'];
     }
     
     /**
@@ -54,19 +61,24 @@ class GoogleDashboardBlockService extends BaseBlockService
     public function execute(BlockInterface $block, Response $response = null)
     {
         if ($this->initialized === false) {
-            
-            $params = array(
-                    'statistics' => $this->statistics,
-                    'authTemplate' => $this->authTemplate
-            );
-            $content = $this->getTemplating()->render('SonataDashboardBundle:Block/Google:init.html.twig', $params);
+            $content = $this->getInitTemplate();
             $this->initialized = true;
         }
         
-        $content .= $this->getTemplating()->render('SonataDashboardBundle:Block/Google:dashboard.html.twig');
-        $response = new Response();
-        $response->setContent($content);
+        $content .= $this->getTemplating()->render('SonataDashboardBundle:Block/Google:dashboard.html.twig', array(
+            'width'    => $this->width,
+            'height'   => $this->height,
+            'days'     => $this->days
+        ));
         
-        return $response;
+        return new Response($content);
+    }
+
+    protected function getInitTemplate()
+    {
+        return $this->getTemplating()->render('SonataDashboardBundle:Block/Google:init.html.twig', array(
+                'statistics' => $this->statistics,
+                'authTemplate' => $this->authTemplate
+        ));
     }
 }
