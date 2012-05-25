@@ -34,6 +34,8 @@ class SonataDashboardExtension extends Extension
         
         $bundles = $container->getParameter('kernel.bundles');
         
+        $container->setParameter('sonata_dashboard.google', $config['google']);
+
         if (isset($bundles['GoogleBundle'])) {
             $loader->load('google.xml');
         }

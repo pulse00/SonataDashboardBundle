@@ -22,8 +22,25 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('sonata_dashboard');
+        $node = $treeBuilder->root('sonata_dashboard')->children();
+
+        $node
+            ->arrayNode('google')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->scalarNode('authorize_template')->defaultValue('SonataDashboardBundle:Block/Google:authorize.html.twig')->end()
+                    ->arrayNode('stats')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('visits')
+                            ->defaultTrue()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
+        
     }
 }

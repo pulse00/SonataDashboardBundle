@@ -1,7 +1,30 @@
 <script type="text/javascript">
-function aha() {
-	adminInit();
+
+function initGoogleDashboard() {
+
+	if( typeof(gadash) === 'undefined') {
+		console.log('oij');
+		return;
+	}
+
+	gadash.onAuthorized = function()
+	{
+		$('.gadash-preloader').show();
+	};
+	
+	gadash.onUnauthorized = function() {
+		$('.gadash-container').css('visibility', 'hidden');
+	};
+	
+	gadash.onSuccess = function() {
+		$('.gadash-preloader').remove();
+	};
+		
+	{% if statistics.visits %}
+      visitInit();
+	{% endif %}
 }
 </script>
 
-{% include 'GoogleBundle:Analytics:dashboard.html.twig' with {'initCallback' : 'aha'} %}
+{% include authTemplate %}
+{% include 'GoogleBundle:Analytics:dashboard.html.twig' with {'initCallback' : 'initGoogleDashboard'} %}

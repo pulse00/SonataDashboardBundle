@@ -8,12 +8,12 @@
     </parameters>
 
     <services>
-        <service id="sonata.dashboard.block.google.dashboard" class="%sonata.dashboard.block.google.dashboard.class%">
+        <service id="sonata.dashboard.block.google.dashboard" class="%sonata.dashboard.block.google.dashboard.class%" scope="request">
             <tag name="sonata.block" />
             <tag name="sonata.layout.render"/>
             <argument>sonata.admin.block.google.dashboard</argument>
             <argument type="service" id="templating" />
-            <argument type="service" id="sonata.admin.pool" />
+            <argument>%sonata_dashboard.google%</argument>
         </service>
     </services>
     

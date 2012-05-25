@@ -10,26 +10,26 @@
  */
 
 namespace Sonata\DashboardBundle\Block;
-
-use Sonata\AdminBundle\Event\RenderLayoutEvent;
-
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Admin\Pool;
 use Sonata\BlockBundle\Block\BaseBlockService;
 
 class GoogleDashboardBlockService extends BaseBlockService
 {
     protected $initialized;
+    protected $statistics;
+    protected $request;
+    protected $authTemplate;
     
-    public function __construct($name, EngineInterface $templating, Pool $pool)
+    public function __construct($name, EngineInterface $templating, array $config)
     {
         parent::__construct($name, $templating);
-        $this->pool = $pool;
         $this->initialized = false;
+        $this->statistics = $config['stats'];
+        $this->authTemplate = $config['authorize_template'];
     }
     
     /**
@@ -53,10 +53,13 @@ class GoogleDashboardBlockService extends BaseBlockService
      */
     public function execute(BlockInterface $block, Response $response = null)
     {
-        $content = '';
-        
         if ($this->initialized === false) {
-            $content = $this->getTemplating()->render('SonataDashboardBundle:Block/Google:init.html.twig');
+            
+            $params = array(
+                    'statistics' => $this->statistics,
+                    'authTemplate' => $this->authTemplate
+            );
+            $content = $this->getTemplating()->render('SonataDashboardBundle:Block/Google:init.html.twig', $params);
             $this->initialized = true;
         }
         

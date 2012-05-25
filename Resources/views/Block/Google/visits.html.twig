@@ -1,12 +1,12 @@
 <div class="gadash-container">
-    <h3>Visits</h3>
+    <h3>{{ 'google_visits'|trans({}, 'SonataDashboardBundle') }}</h3>
     <div id='dataOverTimeConfig'></div>
     <img src="{{ asset('/bundles/sonatadashboard/images/preloader.gif') }}" class="gadash-preloader" style="display:none;"/>
 <div>
 
 <script type="text/javascript">
 
-function adminInit() {
+function visitInit() {
 
     // Create new Chart.
     var dataOverTime = new gadash.Chart({
