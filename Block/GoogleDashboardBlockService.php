@@ -13,10 +13,13 @@ use Sonata\BlockBundle\Block\BaseBlockService;
 
 class GoogleDashboardBlockService extends BaseBlockService
 {
+    protected $initialized;
+    
     public function __construct($name, EngineInterface $templating, Pool $pool)
     {
         parent::__construct($name, $templating);
         $this->pool = $pool;
+        $this->initialized = false;
     }
     
     /**
@@ -40,11 +43,17 @@ class GoogleDashboardBlockService extends BaseBlockService
      */
     public function execute(BlockInterface $block, Response $response = null)
     {
-        return $this->renderResponse('SonataDashboardBundle:Block/Google:google_dashboard.html.twig', array(), $response);        
-    }
-    
-    public function onBeforeBodyEnd(RenderLayoutEvent $event)
-    {
-        $event->addData('foobar');
+        $content = '';
+        
+        if ($this->initialized === false) {
+            $content = $this->getTemplating()->render('SonataDashboardBundle:Block/Google:dashboard_init.html.twig');
+            $this->initialized = true;
+        }
+        
+        $content .= $this->getTemplating()->render('SonataDashboardBundle:Block/Google:google_dashboard.html.twig');
+        $response = new Response();
+        $response->setContent($content);
+        
+        return $response;
     }
 }
